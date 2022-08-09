@@ -71,6 +71,32 @@ app.get<{ name: string }>("/happy-birthday/:name", (req, res) => {
   });
 });
 
+app.get<{ phrase: string }>("/shout/:phrase", (req, res) => {
+  res.json({
+    shout: req.params.phrase.toUpperCase(),
+    result: `I am shouting back to you: ${req.params.phrase.toUpperCase()}!`,
+  });
+});
+
+app.get("/add/:num1/:num2", (req, res) => {
+  res.json({
+    original: `${req.params.num1} + ${req.params.num2}`,
+    result: parseInt(req.params.num1) + parseInt(req.params.num2),
+  });
+});
+
+app.get<{ food: string }>("/eat/:food", (req, res) => {
+  const vowels: string[] = ["a", "e", "i", "o", "u"];
+  const firstLetter: string = req.params.food[0].toLowerCase();
+  const startsWithVowel: boolean = vowels.includes(firstLetter);
+  res.json({
+    message: `Yum yum - you ate ${
+      (startsWithVowel && "an " + req.params.food.toLowerCase()) ||
+      "a " + req.params.food.toLowerCase()
+    }`,
+  });
+});
+
 // using 4000 by convention, but could be changed
 const PORT_NUMBER = 4000;
 
